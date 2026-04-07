@@ -1,0 +1,4 @@
+baseURL = "https://ikmakinen.github.io/"
+languageCode = "en-us"
+title = "I. Mäkinen"
+theme = "PaperMod"

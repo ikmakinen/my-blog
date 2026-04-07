@@ -1,0 +1,12 @@
+# Hugo generated files
+/public/
+/resources/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files (optional)
+.vscode/
+.idea/
+*.swp
