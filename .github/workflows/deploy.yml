@@ -3,35 +3,31 @@ name: Deploy Hugo site
 on:
   push:
     branches:
-      - main
+      - main  # deploy when pushing to source repo
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout source repo with theme submodule
-      - name: Checkout source
+      - name: Checkout source repo
         uses: actions/checkout@v3
         with:
           submodules: true
 
-      # 2. Setup Hugo
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: 'latest'
           extended: true
 
-      # 3. Build Hugo site
-      - name: Build site
+      - name: Build Hugo site
         run: hugo --minify
 
-      # 4. Deploy using orphan branch (force)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           destination_repo: ikmakinen/ikmakinen.github.io
-          publish_branch: main
+          publish_branch: gh-pages   # <--- deploy to gh-pages, not main
           force_orphan: true
