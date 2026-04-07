@@ -1,33 +1,37 @@
-name: Deploy Hugo site
+name: Hugo Deploy
 
 on:
   push:
     branches:
-      - main  # deploy when pushing to source repo
+      - main
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source repo
+      # Checkout source repo with theme
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: true
 
+      # Setup Hugo
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: 'latest'
           extended: true
 
-      - name: Build Hugo site
+      # Build Hugo site
+      - name: Build site
         run: hugo --minify
 
-      - name: Deploy to GitHub Pages
+      # Deploy to GitHub Pages (gh-pages branch)
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           destination_repo: ikmakinen/ikmakinen.github.io
-          publish_branch: gh-pages   # <--- deploy to gh-pages, not main
+          publish_branch: gh-pages
           force_orphan: true
