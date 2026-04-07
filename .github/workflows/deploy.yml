@@ -3,7 +3,7 @@ name: Deploy Hugo site
 on:
   push:
     branches:
-      - main  # deploy when you push to main branch
+      - main  # deploy on push to main
 
 jobs:
   build-deploy:
@@ -13,7 +13,7 @@ jobs:
       # 1. Checkout the source repo
       - uses: actions/checkout@v3
         with:
-          submodules: true  # important for themes
+          submodules: true  # for theme
 
       # 2. Setup Hugo
       - uses: peaceiris/actions-hugo@v2
@@ -24,11 +24,10 @@ jobs:
       # 3. Build site
       - run: hugo --minify
 
-      # 4. Deploy to GitHub Pages
+      # 4. Deploy to GitHub Pages (force push)
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           destination_repo: ikmakinen/ikmakinen.github.io
-          user_name: 'ikmakinen'
-          user_email: ''
+          force_orphan: true
