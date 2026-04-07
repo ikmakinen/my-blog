@@ -1,0 +1,34 @@
+name: Deploy Hugo site
+
+on:
+  push:
+    branches:
+      - main  # deploy when you push to main branch
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the source repo
+      - uses: actions/checkout@v3
+        with:
+          submodules: true  # important for themes
+
+      # 2. Setup Hugo
+      - uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      # 3. Build site
+      - run: hugo --minify
+
+      # 4. Deploy to GitHub Pages
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          destination_repo: ikmakinen/ikmakinen.github.io
+          user_name: 'ikmakinen'
+          user_email: ''
